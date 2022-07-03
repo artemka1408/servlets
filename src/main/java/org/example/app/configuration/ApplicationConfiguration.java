@@ -18,18 +18,17 @@ public class ApplicationConfiguration {
     }
 
     @Bean(destroyMethod = "close")
-    // initMethod = какой метод вызывать при инициализации
-    // destroyMethod = какой метод вызывать при закрытии контекста
     public HikariDataSource dataSource() {
-        final HikariConfig configuration = new HikariConfig();
-        configuration.setJdbcUrl("jdbc:postgresql://localhost:5432/db?user=app&password=password");
-        configuration.setDriverClassName("org.postgresql.Driver");
+        HikariConfig configuration = new HikariConfig();
+        configuration.setJdbcUrl(
+                "jdbc:postgresql://localhost:5432/db?user=app&password=password"
+        );
         return new HikariDataSource(configuration);
     }
 
     @Bean
-    // тип возвращаемого значения: общее соглашение - интерфейс, а не конкретную реализацию
-    public NamedParameterJdbcOperations namedParameterJdbcOperations(final DataSource dataSource) {
-        return new NamedParameterJdbcTemplate(dataSource); // DataSource???
+    public NamedParameterJdbcOperations namedParameterJdbcOperations(DataSource dataSource) {
+        return new NamedParameterJdbcTemplate(dataSource);
     }
+
 }
